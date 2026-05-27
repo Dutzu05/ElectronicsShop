@@ -36,19 +36,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
-$products = db()->query('
+$search = trim((string)($_GET['search'] ?? ''));
+
+$productSql = "
     SELECT
         p.ProductID,
         p.ProductName,
         p.Price,
         p.StockQuantity,
         c.CategoryName,
-        COALESCE(MIN(alt.ProductName), \'No similar product in this category\') AS SimilarProductName
+        COALESCE(MIN(alt.ProductName), 'No similar product in this category') AS SimilarProductName
     FROM Products p
     JOIN Categories c ON p.CategoryID = c.CategoryID
     LEFT JOIN Products alt
         ON alt.CategoryID = p.CategoryID
        AND alt.ProductID <> p.ProductID
+";
+$productParams = [];
+
+if ($search !== '') {
+    $productSql .= "
+        WHERE p.ProductName LIKE ?
+           OR c.CategoryName LIKE ?
+    ";
+    $term = '%' . $search . '%';
+    $productParams = [$term, $term];
+}
+
+$productSql .= "
     GROUP BY
         p.ProductID,
         p.ProductName,
@@ -56,7 +71,11 @@ $products = db()->query('
         p.StockQuantity,
         c.CategoryName
     ORDER BY c.CategoryName, p.ProductName
-')->fetchAll();
+";
+
+$stmt = db()->prepare($productSql);
+$stmt->execute($productParams);
+$products = $stmt->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -77,6 +96,23 @@ $products = db()->query('
 
 <main>
     <h1>Available products</h1>
+
+    <form method="get" action="shop.php" class="search-bar">
+        <input
+            type="search"
+            name="search"
+            placeholder="Search by product or category"
+            value="<?= h($search) ?>"
+        >
+        <button type="submit">Search</button>
+        <?php if ($search !== ''): ?>
+            <a class="button-link secondary" href="shop.php">Clear</a>
+        <?php endif; ?>
+    </form>
+
+    <?php if ($search !== '' && !$products): ?>
+        <p>No products matched your search.</p>
+    <?php endif; ?>
 
     <div class="grid">
         <?php foreach ($products as $product): ?>

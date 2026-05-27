@@ -111,6 +111,16 @@ button:hover,
     margin-bottom: 20px;
 }
 
+.admin-page .card {
+    max-height: 420px;
+    overflow: auto;
+}
+
+.admin-page .card.management-card {
+    max-height: none;
+    overflow: visible;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -182,6 +192,16 @@ th {
     margin-bottom: 24px;
 }
 
+.management-split {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+}
+
+.management-delete {
+    align-content: start;
+}
+
 .stack-form {
     display: grid;
     gap: 12px;
@@ -196,6 +216,20 @@ th {
 
 .compact-input {
     width: 90px;
+    margin-top: 0;
+}
+
+.search-bar {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 16px 0 20px;
+}
+
+.search-bar input[type="search"] {
+    flex: 1 1 320px;
+    max-width: 520px;
     margin-top: 0;
 }
 
@@ -256,4 +290,21 @@ th {
 .order-item.compact {
     align-items: flex-start;
     padding-top: 8px;
+}
+
+.table-scroll {
+    overflow: auto;
+    max-width: 100%;
+    margin-top: 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+}
+
+.table-scroll table {
+    margin-top: 0;
+    min-width: 720px;
+}
+
+.table-scroll-tall {
+    max-height: 680px;
 }

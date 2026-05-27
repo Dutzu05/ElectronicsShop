@@ -56,21 +56,23 @@ foreach ($tableNames as $tableName) {
             <?php if (!$table['rows']): ?>
                 <p>No rows found in this table.</p>
             <?php else: ?>
-                <table>
-                    <tr>
-                        <?php foreach ($table['columns'] as $column): ?>
-                            <th><?= h((string)$column) ?></th>
-                        <?php endforeach; ?>
-                    </tr>
-
-                    <?php foreach ($table['rows'] as $row): ?>
+                <div class="table-scroll table-scroll-tall">
+                    <table>
                         <tr>
                             <?php foreach ($table['columns'] as $column): ?>
-                                <td><?= h($row[$column] === null ? 'NULL' : (string)$row[$column]) ?></td>
+                                <th><?= h((string)$column) ?></th>
                             <?php endforeach; ?>
                         </tr>
-                    <?php endforeach; ?>
-                </table>
+
+                        <?php foreach ($table['rows'] as $row): ?>
+                            <tr>
+                                <?php foreach ($table['columns'] as $column): ?>
+                                    <td><?= h($row[$column] === null ? 'NULL' : (string)$row[$column]) ?></td>
+                                <?php endforeach; ?>
+                            </tr>
+                        <?php endforeach; ?>
+                    </table>
+                </div>
             <?php endif; ?>
         </section>
     <?php endforeach; ?>
