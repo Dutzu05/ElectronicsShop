@@ -148,3 +148,48 @@ th {
 .pin-form {
     max-width: 300px;
 }
+
+.muted {
+    color: #4b5563;
+}
+
+.product-image {
+    width: 100%;
+    max-width: 220px;
+    height: 140px;
+    object-fit: contain;
+    display: block;
+    margin-bottom: 12px;
+    background: #fff;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    padding: 8px;
+}
+
+.product-image.small {
+    width: 64px;
+    min-width: 64px;
+    height: 64px;
+    margin: 0 10px 0 0;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.product-image.thumb {
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    margin: 0 8px 0 0;
+}
+
+.order-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-top: 10px;
+}
+
+.order-item.compact {
+    align-items: flex-start;
+    padding-top: 8px;
+}

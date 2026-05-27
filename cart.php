@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/auth.php';
+require_once __DIR__ . '/product_assets.php';
 
 $user = require_login();
 
@@ -21,9 +22,12 @@ if (isset($_GET['remove'])) {
 
 $items = [];
 $total = 0.0;
+$cartIds = [];
+$cartProductComparisons = [];
 
 if ($cart) {
     $ids = array_keys($cart);
+    $cartIds = array_map('intval', $ids);
     $placeholders = implode(',', array_fill(0, count($ids), '?'));
 
     $stmt = db()->prepare("SELECT * FROM Products WHERE ProductID IN ($placeholders)");
@@ -41,6 +45,30 @@ if ($cart) {
             'subtotal' => $subtotal,
         ];
     }
+
+    $comparisonStmt = db()->prepare("
+        SELECT
+            p.ProductID,
+            p.ProductName,
+            c.CategoryName,
+            p.Price,
+            (
+                SELECT AVG(p2.Price)
+                FROM Products p2
+                WHERE p2.CategoryID = p.CategoryID
+            ) AS CategoryAveragePrice,
+            COALESCE(MIN(alt.ProductName), 'No alternative in category') AS AlternativeProduct
+        FROM Products p
+        JOIN Categories c ON c.CategoryID = p.CategoryID
+        LEFT JOIN Products alt
+            ON alt.CategoryID = p.CategoryID
+           AND alt.ProductID <> p.ProductID
+        WHERE p.ProductID IN ($placeholders)
+        GROUP BY p.ProductID, p.ProductName, c.CategoryName, p.Price, p.CategoryID
+        ORDER BY c.CategoryName, p.ProductName
+    ");
+    $comparisonStmt->execute($cartIds);
+    $cartProductComparisons = $comparisonStmt->fetchAll();
 }
 ?>
 <!DOCTYPE html>
@@ -78,7 +106,15 @@ if ($cart) {
 
             <?php foreach ($items as $item): ?>
                 <tr>
-                    <td><?= h($item['product']['ProductName']) ?></td>
+                    <?php $asset = product_asset((string)$item['product']['ProductName']); ?>
+                    <td>
+                        <img
+                            class="product-image small"
+                            src="<?= h($asset['image']) ?>"
+                            alt="<?= h((string)$item['product']['ProductName']) ?>"
+                        >
+                        <?= h($item['product']['ProductName']) ?>
+                    </td>
                     <td><?= h((string)$item['quantity']) ?></td>
                     <td><?= h((string)$item['product']['Price']) ?> RON</td>
                     <td><?= h(number_format($item['subtotal'], 2)) ?> RON</td>
@@ -90,6 +126,53 @@ if ($cart) {
         </table>
 
         <h2>Total: <?= h(number_format($total, 2)) ?> RON</h2>
+
+        <section>
+            <h2>Price comparison for products in cart</h2>
+            <p class="muted">Each product is compared with the average price from its category.</p>
+
+            <table>
+                <tr>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Category average</th>
+                    <th>Difference</th>
+                </tr>
+
+                <?php foreach ($cartProductComparisons as $comparison): ?>
+                    <?php $difference = (float)$comparison['Price'] - (float)$comparison['CategoryAveragePrice']; ?>
+                    <tr>
+                        <td><?= h((string)$comparison['ProductName']) ?></td>
+                        <td><?= h((string)$comparison['CategoryName']) ?></td>
+                        <td><?= h(number_format((float)$comparison['Price'], 2)) ?> RON</td>
+                        <td><?= h(number_format((float)$comparison['CategoryAveragePrice'], 2)) ?> RON</td>
+                        <td><?= h(number_format($difference, 2)) ?> RON</td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
+        </section>
+
+        <section>
+            <h2>Alternative products for your cart</h2>
+            <p class="muted">This uses a SELF JOIN to show another product from the same category.</p>
+
+            <table>
+                <tr>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Alternative</th>
+                </tr>
+
+                <?php foreach ($cartProductComparisons as $comparison): ?>
+                    <tr>
+                        <td><?= h((string)$comparison['ProductName']) ?></td>
+                        <td><?= h((string)$comparison['CategoryName']) ?></td>
+                        <td><?= h((string)$comparison['AlternativeProduct']) ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
+        </section>
 
         <form method="get" action="checkout.php">
             <button type="submit">Place order</button>
