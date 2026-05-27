@@ -36,6 +36,10 @@ main {
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 
+.auth-box-wide {
+    width: min(520px, calc(100% - 32px));
+}
+
 .auth-box h1,
 .auth-box h2 {
     text-align: center;
@@ -75,6 +79,14 @@ button,
 button:hover,
 .button-link:hover {
     background: #1d4ed8;
+}
+
+.button-link.secondary {
+    background: #475569;
+}
+
+.button-link.secondary:hover {
+    background: #334155;
 }
 
 .danger {
@@ -153,6 +165,10 @@ th {
 
 .pin-form {
     max-width: 300px;
+}
+
+.auth-switch {
+    margin-top: 18px;
 }
 
 .muted {

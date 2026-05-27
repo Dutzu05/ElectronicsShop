@@ -62,6 +62,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </label>
             <button type="submit">Log in</button>
         </form>
+        <p class="auth-switch">
+            Need a new account?
+            <a class="button-link secondary" href="register.php">Create account</a>
+        </p>
         <div class="demo">
             <p>Demo user: <code>user@shop.com</code> / <code>user123</code></p>
             <p>Demo admin: <code>admin@shop.com</code> / <code>admin123</code></p>
