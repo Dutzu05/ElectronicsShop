@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520">
+  <rect width="800" height="520" fill="#f0fdf4"/>
+  <path d="M400 100c95 0 160 70 160 170v55c0 95-70 145-160 145s-160-50-160-145v-55c0-100 65-170 160-170z" fill="#1f2937"/>
+  <path d="M400 100c60 0 100 45 100 105v45H300v-45c0-60 40-105 100-105z" fill="#4b5563"/>
+  <rect x="385" y="135" width="30" height="75" rx="15" fill="#d1d5db"/>
+  <text x="400" y="495" text-anchor="middle" font-size="34" font-family="Arial" fill="#166534">Logitech Mouse</text>
+</svg>

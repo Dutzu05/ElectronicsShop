@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520">
+  <rect width="800" height="520" fill="#faf5ff"/>
+  <rect x="290" y="70" width="220" height="380" rx="34" fill="#111827"/>
+  <rect x="308" y="95" width="184" height="332" rx="22" fill="#c4b5fd"/>
+  <circle cx="400" cy="114" r="10" fill="#111827"/>
+  <text x="400" y="490" text-anchor="middle" font-size="38" font-family="Arial" fill="#7c3aed">Phone product</text>
+</svg>

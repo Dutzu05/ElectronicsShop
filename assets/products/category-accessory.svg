@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520">
+  <rect width="800" height="520" fill="#fff7ed"/>
+  <circle cx="295" cy="250" r="90" fill="#1f2937"/>
+  <rect x="450" y="185" width="150" height="120" rx="16" fill="#374151"/>
+  <g fill="#fb923c">
+    <rect x="470" y="205" width="25" height="25" rx="4"/>
+    <rect x="505" y="205" width="25" height="25" rx="4"/>
+    <rect x="540" y="205" width="25" height="25" rx="4"/>
+    <rect x="575" y="205" width="25" height="25" rx="4"/>
+    <rect x="470" y="240" width="95" height="25" rx="4"/>
+    <rect x="575" y="240" width="25" height="25" rx="4"/>
+  </g>
+  <text x="400" y="470" text-anchor="middle" font-size="38" font-family="Arial" fill="#9a3412">Accessory product</text>
+</svg>

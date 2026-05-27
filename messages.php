@@ -36,10 +36,12 @@ $orderItemsStmt = db()->prepare("
     SELECT
         oi.OrderID,
         p.ProductName,
+        c.CategoryName,
         oi.Quantity,
         oi.UnitPrice
     FROM OrderItems oi
     JOIN Products p ON p.ProductID = oi.ProductID
+    JOIN Categories c ON c.CategoryID = p.CategoryID
     WHERE oi.OrderID = ?
     ORDER BY p.ProductName
 ");
@@ -81,7 +83,7 @@ $orderItemsStmt = db()->prepare("
             <p><strong>Total:</strong> <?= h(number_format((float)($order['OrderTotal'] ?? 0), 2)) ?> RON</p>
 
             <?php foreach ($orderItems as $item): ?>
-                <?php $asset = product_asset((string)$item['ProductName']); ?>
+                <?php $asset = product_asset((string)$item['ProductName'], (string)$item['CategoryName']); ?>
                 <div class="order-item">
                     <img
                         class="product-image small"

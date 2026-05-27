@@ -81,7 +81,7 @@ $products = db()->query('
     <div class="grid">
         <?php foreach ($products as $product): ?>
             <div class="card">
-                <?php $asset = product_asset((string)$product['ProductName']); ?>
+                <?php $asset = product_asset((string)$product['ProductName'], (string)$product['CategoryName']); ?>
                 <img
                     class="product-image"
                     src="<?= h($asset['image']) ?>"
@@ -92,8 +92,6 @@ $products = db()->query('
                 <p><strong>Price:</strong> <?= h((string)$product['Price']) ?> RON</p>
                 <p><strong>Stock:</strong> <?= h((string)$product['StockQuantity']) ?></p>
                 <p><strong>Similar product:</strong> <?= h((string)$product['SimilarProductName']) ?></p>
-                <p><a href="<?= h($asset['source']) ?>" target="_blank" rel="noreferrer">Image source</a></p>
-
                 <form method="post">
                     <input type="hidden" name="product_id" value="<?= h((string)$product['ProductID']) ?>">
                     <label>Quantity</label>

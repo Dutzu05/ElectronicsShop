@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520">
+  <rect width="800" height="520" fill="#fff7ed"/>
+  <rect x="120" y="140" width="560" height="220" rx="22" fill="#374151"/>
+  <g fill="#fb923c">
+    <rect x="155" y="175" width="55" height="42" rx="7"/>
+    <rect x="220" y="175" width="55" height="42" rx="7"/>
+    <rect x="285" y="175" width="55" height="42" rx="7"/>
+    <rect x="350" y="175" width="55" height="42" rx="7"/>
+    <rect x="415" y="175" width="55" height="42" rx="7"/>
+    <rect x="480" y="175" width="55" height="42" rx="7"/>
+    <rect x="545" y="175" width="55" height="42" rx="7"/>
+    <rect x="155" y="228" width="70" height="42" rx="7"/>
+    <rect x="235" y="228" width="55" height="42" rx="7"/>
+    <rect x="300" y="228" width="55" height="42" rx="7"/>
+    <rect x="365" y="228" width="55" height="42" rx="7"/>
+    <rect x="430" y="228" width="55" height="42" rx="7"/>
+    <rect x="495" y="228" width="105" height="42" rx="7"/>
+    <rect x="155" y="281" width="90" height="42" rx="7"/>
+    <rect x="255" y="281" width="250" height="42" rx="7"/>
+    <rect x="515" y="281" width="85" height="42" rx="7"/>
+  </g>
+  <text x="400" y="470" text-anchor="middle" font-size="34" font-family="Arial" fill="#9a3412">Mechanical Keyboard</text>
+</svg>

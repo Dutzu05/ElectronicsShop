@@ -30,7 +30,12 @@ if ($cart) {
     $cartIds = array_map('intval', $ids);
     $placeholders = implode(',', array_fill(0, count($ids), '?'));
 
-    $stmt = db()->prepare("SELECT * FROM Products WHERE ProductID IN ($placeholders)");
+    $stmt = db()->prepare("
+        SELECT p.*, c.CategoryName
+        FROM Products p
+        JOIN Categories c ON c.CategoryID = p.CategoryID
+        WHERE p.ProductID IN ($placeholders)
+    ");
     $stmt->execute($ids);
     $products = $stmt->fetchAll();
 
@@ -106,7 +111,7 @@ if ($cart) {
 
             <?php foreach ($items as $item): ?>
                 <tr>
-                    <?php $asset = product_asset((string)$item['product']['ProductName']); ?>
+                    <?php $asset = product_asset((string)$item['product']['ProductName'], (string)$item['product']['CategoryName']); ?>
                     <td>
                         <img
                             class="product-image small"

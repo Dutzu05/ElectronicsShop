@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520">
+  <rect width="800" height="520" fill="#eff6ff"/>
+  <rect x="150" y="95" width="500" height="275" rx="18" fill="#1e293b"/>
+  <rect x="175" y="120" width="450" height="225" rx="10" fill="#93c5fd"/>
+  <rect x="190" y="380" width="420" height="18" rx="9" fill="#94a3b8"/>
+  <text x="400" y="470" text-anchor="middle" font-size="38" font-family="Arial" fill="#1d4ed8">Laptop product</text>
+</svg>

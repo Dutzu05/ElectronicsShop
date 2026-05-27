@@ -36,6 +36,30 @@ $customerSummaries = db()->query("
     ORDER BY TotalSpent DESC, c.LastName, c.FirstName
 ")->fetchAll();
 
+$categories = db()->query("
+    SELECT
+        c.CategoryID,
+        c.CategoryName,
+        c.Description,
+        COUNT(p.ProductID) AS ProductCount
+    FROM Categories c
+    LEFT JOIN Products p ON p.CategoryID = c.CategoryID
+    GROUP BY c.CategoryID, c.CategoryName, c.Description
+    ORDER BY c.CategoryName
+")->fetchAll();
+
+$productsForAdmin = db()->query("
+    SELECT
+        p.ProductID,
+        p.ProductName,
+        p.Price,
+        p.StockQuantity,
+        c.CategoryName
+    FROM Products p
+    JOIN Categories c ON c.CategoryID = p.CategoryID
+    ORDER BY c.CategoryName, p.ProductName
+")->fetchAll();
+
 $nullExamples = db()->query("
     SELECT
         u.Email,
@@ -52,11 +76,13 @@ $orderDetailsStmt = db()->prepare("
     SELECT
         oi.OrderID,
         p.ProductName,
+        c.CategoryName,
         oi.Quantity,
         oi.UnitPrice,
         oi.Quantity * oi.UnitPrice AS LineTotal
     FROM OrderItems oi
     JOIN Products p ON p.ProductID = oi.ProductID
+    JOIN Categories c ON c.CategoryID = p.CategoryID
     WHERE oi.OrderID = ?
     ORDER BY p.ProductName
 ");
@@ -80,9 +106,146 @@ $orderDetailsStmt = db()->prepare("
 <main>
     <h1>Admin dashboard</h1>
 
+    <?php if (isset($_GET['status'])): ?>
+        <p class="success-banner"><?= h((string)$_GET['status']) ?></p>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['error'])): ?>
+        <p class="error-banner"><?= h((string)$_GET['error']) ?></p>
+    <?php endif; ?>
+
+    <section>
+        <h2>Category management</h2>
+
+        <div class="admin-layout">
+            <div class="card">
+                <h3>Add category</h3>
+                <form method="post" action="admin_action.php" class="stack-form">
+                    <input type="hidden" name="action" value="add_category">
+                    <label>
+                        Category name
+                        <input type="text" name="category_name" required>
+                    </label>
+                    <label>
+                        Description
+                        <input type="text" name="category_description" required>
+                    </label>
+                    <button type="submit">Add category</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h3>Delete category</h3>
+                <form method="post" action="admin_action.php" class="stack-form">
+                    <input type="hidden" name="action" value="delete_category">
+                    <label>
+                        Category
+                        <select name="category_id" required>
+                            <?php foreach ($categories as $category): ?>
+                                <option value="<?= h((string)$category['CategoryID']) ?>">
+                                    <?= h((string)$category['CategoryName']) ?> (<?= h((string)$category['ProductCount']) ?> products)
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </label>
+                    <button type="submit" class="danger">Delete category</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Product management</h2>
+
+        <div class="admin-layout">
+            <div class="card">
+                <h3>Add product</h3>
+                <form method="post" action="admin_action.php" class="stack-form">
+                    <input type="hidden" name="action" value="add_product">
+                    <label>
+                        Product name
+                        <input type="text" name="product_name" required>
+                    </label>
+                    <label>
+                        Category
+                        <select name="category_id" required>
+                            <?php foreach ($categories as $category): ?>
+                                <option value="<?= h((string)$category['CategoryID']) ?>"><?= h((string)$category['CategoryName']) ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </label>
+                    <label>
+                        Price
+                        <input type="number" name="price" min="0" step="0.01" required>
+                    </label>
+                    <label>
+                        Stock quantity
+                        <input type="number" name="stock_quantity" min="0" step="1" required>
+                    </label>
+                    <button type="submit">Add product</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h3>Delete product</h3>
+                <form method="post" action="admin_action.php" class="stack-form">
+                    <input type="hidden" name="action" value="delete_product">
+                    <label>
+                        Product
+                        <select name="product_id" required>
+                            <?php foreach ($productsForAdmin as $product): ?>
+                                <option value="<?= h((string)$product['ProductID']) ?>">
+                                    <?= h((string)$product['ProductName']) ?> (<?= h((string)$product['CategoryName']) ?>)
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </label>
+                    <button type="submit" class="danger">Delete product</button>
+                </form>
+            </div>
+        </div>
+
+        <table>
+            <tr>
+                <th>Image</th>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Adjust stock</th>
+            </tr>
+
+            <?php foreach ($productsForAdmin as $product): ?>
+                <?php $asset = product_asset((string)$product['ProductName'], (string)$product['CategoryName']); ?>
+                <tr>
+                    <td>
+                        <img
+                            class="product-image thumb"
+                            src="<?= h($asset['image']) ?>"
+                            alt="<?= h((string)$product['ProductName']) ?>"
+                        >
+                    </td>
+                    <td><?= h((string)$product['ProductName']) ?></td>
+                    <td><?= h((string)$product['CategoryName']) ?></td>
+                    <td><?= h(number_format((float)$product['Price'], 2)) ?> RON</td>
+                    <td><?= h((string)$product['StockQuantity']) ?></td>
+                    <td>
+                        <form method="post" action="admin_action.php" class="inline-form">
+                            <input type="hidden" name="action" value="adjust_stock">
+                            <input type="hidden" name="product_id" value="<?= h((string)$product['ProductID']) ?>">
+                            <input type="number" name="stock_delta" value="1" min="1" step="1" class="compact-input" required>
+                            <button type="submit" name="direction" value="increase">Add</button>
+                            <button type="submit" name="direction" value="decrease" class="danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+    </section>
+
     <section>
         <h2>Customer order summary</h2>
-        <p class="muted">Uses JOIN with aggregate functions: COUNT, SUM and AVG.</p>
+
 
         <table>
             <tr>
@@ -107,7 +270,6 @@ $orderDetailsStmt = db()->prepare("
 
     <section>
         <h2>Rows with NULL values</h2>
-        <p class="muted">Uses IS NULL and COALESCE to highlight optional data.</p>
 
         <?php if (!$nullExamples): ?>
             <p>No NULL-based examples found.</p>
@@ -178,7 +340,7 @@ $orderDetailsStmt = db()->prepare("
                         <small>Total: <?= h(number_format($orderTotal, 2)) ?> RON</small><br>
                         <small>Items: <?= h((string)count($orderItems)) ?></small>
                         <?php foreach ($orderItems as $item): ?>
-                            <?php $asset = product_asset((string)$item['ProductName']); ?>
+                            <?php $asset = product_asset((string)$item['ProductName'], (string)$item['CategoryName']); ?>
                             <div class="order-item compact">
                                 <img
                                     class="product-image thumb"

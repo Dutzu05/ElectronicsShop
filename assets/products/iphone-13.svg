@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520">
+  <rect width="800" height="520" fill="#f5f3ff"/>
+  <rect x="280" y="60" width="240" height="400" rx="36" fill="#111827"/>
+  <rect x="300" y="90" width="200" height="340" rx="24" fill="#f9a8d4"/>
+  <circle cx="340" cy="125" r="18" fill="#111827"/>
+  <circle cx="390" cy="125" r="18" fill="#111827"/>
+  <rect x="355" y="118" width="90" height="18" rx="9" fill="#111827"/>
+  <circle cx="400" cy="390" r="28" fill="#fbcfe8"/>
+  <text x="400" y="490" text-anchor="middle" font-size="34" font-family="Arial" fill="#581c87">iPhone 13</text>
+</svg>

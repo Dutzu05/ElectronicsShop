@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520">
+  <rect width="800" height="520" fill="#f8fafc"/>
+  <rect x="110" y="85" width="580" height="310" rx="18" fill="#1f2937"/>
+  <rect x="138" y="112" width="524" height="255" rx="10" fill="#86efac"/>
+  <rect x="378" y="395" width="44" height="58" rx="8" fill="#475569"/>
+  <rect x="318" y="448" width="164" height="20" rx="10" fill="#94a3b8"/>
+  <text x="400" y="498" text-anchor="middle" font-size="34" font-family="Arial" fill="#0f172a">Dell 24 inch Monitor</text>
+</svg>

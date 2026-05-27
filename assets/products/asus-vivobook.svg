@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520">
+  <rect width="800" height="520" fill="#ecfeff"/>
+  <rect x="110" y="85" width="580" height="310" rx="20" fill="#0f172a"/>
+  <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0%" stop-color="#22d3ee"/>
+    <stop offset="100%" stop-color="#0ea5e9"/>
+  </linearGradient>
+  <rect x="138" y="112" width="524" height="255" rx="12" fill="url(#g1)"/>
+  <polygon points="250,390 550,390 615,430 185,430" fill="#94a3b8"/>
+  <text x="400" y="472" text-anchor="middle" font-size="34" font-family="Arial" fill="#164e63">ASUS VivoBook</text>
+</svg>
