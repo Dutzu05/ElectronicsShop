@@ -1,0 +1,39 @@
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local session / cookie artifacts
+cookies.txt
+user-cookies.txt
+admin-cookies.txt
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+
+# PHP / server local artifacts
+*.cache
+
+# SQL Server PHP driver binaries and debug symbols
+pdo_sqlsrv_5_13_1/
+sqlsrv_5_13_1/
+*.dll
+*.pdb
+
+# Downloaded archives
+*.zip
+*.7z
+*.rar
+
+# Environment or secret files
+.env
+.env.*
+!.env.example
