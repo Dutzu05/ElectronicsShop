@@ -1,0 +1,150 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f3f6fb;
+    color: #222;
+}
+
+nav {
+    background: #1f2937;
+    color: white;
+    padding: 15px 30px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+}
+
+main {
+    padding: 30px;
+}
+
+.auth-box {
+    width: 400px;
+    margin: 80px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.auth-box h1,
+.auth-box h2 {
+    text-align: center;
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+}
+
+button,
+.button-link {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 15px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+button:hover,
+.button-link:hover {
+    background: #1d4ed8;
+}
+
+.danger {
+    background: #dc2626;
+}
+
+.danger:hover {
+    background: #b91c1c;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    margin-top: 20px;
+}
+
+th,
+td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background: #e5e7eb;
+}
+
+.error {
+    color: #dc2626;
+    font-weight: bold;
+}
+
+.success {
+    color: #15803d;
+    font-weight: bold;
+}
+
+.info {
+    color: #2563eb;
+    font-weight: bold;
+}
+
+.message {
+    background: white;
+    border-left: 5px solid #2563eb;
+    padding: 15px;
+    margin-bottom: 10px;
+}
+
+.inline {
+    display: inline;
+}
+
+.demo {
+    margin-top: 20px;
+    background: #f9fafb;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.pin-form {
+    max-width: 300px;
+}
